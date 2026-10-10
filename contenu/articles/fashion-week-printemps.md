@@ -4,7 +4,7 @@ rubrique: art/mode
 date: '2026-10-05'
 auteur: La rédaction
 chapo: Sur les podiums de la saison, les créateurs renouent avec le récit et l'artisanat.
-image: https://picsum.photos/seed/rvpture-mode/900/1100
+image: /images/exemple-fashion-week-printemps.jpg
 legende: Backstage, quelques minutes avant le défilé.
 publie: true
 ---
@@ -15,7 +15,7 @@ Fini le minimalisme froid : cette saison, les silhouettes se chargent d'histoire
 
 Plusieurs maisons ont choisi de montrer le travail des ateliers, invitant brodeuses et plumassiers à saluer aux côtés des directeurs artistiques.
 
-![Détail d'une broderie réalisée à la main](https://picsum.photos/seed/rvpture-broderie/900/700)
+![Détail d'une broderie réalisée à la main](/images/exemple-broderie.jpg)
 
 Une manière de rappeler que la mode est aussi un savoir-faire.
 

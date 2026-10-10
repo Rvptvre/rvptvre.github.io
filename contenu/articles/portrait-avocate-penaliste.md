@@ -4,7 +4,7 @@ rubrique: droit/portrait
 date: '2026-09-28'
 auteur: La rédaction
 chapo: Rencontre avec une avocate qui a fait de la défense pénale un engagement de chaque instant.
-image: https://picsum.photos/seed/rvpture-avocate/900/1100
+image: /images/exemple-portrait-avocate-penaliste.jpg
 legende: Dans son cabinet, entre deux audiences.
 publie: true
 ---

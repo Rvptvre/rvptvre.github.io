@@ -4,7 +4,7 @@ rubrique: art/expositions
 date: '2026-10-01'
 auteur: La rédaction
 chapo: 'Cent tirages, cinquante ans de rues, un regard : la rétrospective à voir cet automne.'
-image: https://picsum.photos/seed/rvpture-expo/900/1100
+image: /images/exemple-exposition-photographie.jpg
 legende: ''
 publie: true
 ---
