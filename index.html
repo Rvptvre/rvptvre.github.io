@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RVPTURE — Droit &amp; Art</title>
+  <meta name="description" content="Rvpture, le média qui fait se rencontrer le droit et l'art : actualité juridique, portraits, mode, cinéma, théâtre et expositions.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo+Narrow:wght@400;500;600&family=Archivo:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="masthead" id="masthead">
+    <div class="masthead__top">
+      <p class="masthead__date" id="today"></p>
+      <a href="#/" class="logo" aria-label="Rvpture — accueil">RVPTURE</a>
+      <div class="masthead__right">
+        <button class="text-btn" id="editToggle" type="button">Éditer</button>
+      </div>
+    </div>
+    <nav class="mainnav" aria-label="Navigation principale">
+      <button class="mainnav__menu" id="menuBtn" type="button" aria-controls="drawer" aria-expanded="false">
+        <span class="burger" aria-hidden="true"><i></i><i></i><i></i></span>Menu
+      </button>
+      <button class="mainnav__search" id="searchBtn" type="button" aria-label="Rechercher" aria-controls="drawer">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.5 15.5 21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div class="mainnav__links" id="navLinks"></div>
+    </nav>
+  </header>
+
+  <!-- Barre latérale : recherche + rubriques -->
+  <div class="overlay" id="overlay" hidden></div>
+  <aside class="drawer" id="drawer" aria-hidden="true" aria-label="Menu et recherche">
+    <span class="tape tape--drawer" aria-hidden="true"></span>
+    <div class="drawer__head">
+      <p class="label">Menu</p>
+      <button class="text-btn" id="drawerClose" type="button">Fermer ✕</button>
+    </div>
+    <label class="drawer__search">
+      <span class="drawer__search-label">Rechercher</span>
+      <input type="search" id="searchInput" placeholder="un article, un thème, un nom…" autocomplete="off">
+    </label>
+    <div class="drawer__results" id="searchResults"></div>
+    <div class="drawer__tree" id="drawerTree"></div>
+  </aside>
+
+  <main id="app" tabindex="-1"></main>
+
+  <footer class="footer" id="footer"></footer>
+
+  <!-- Barre du mode édition -->
+  <div class="editbar" id="editbar" hidden>
+    <p class="editbar__info"><strong>Mode édition</strong> — cliquez sur un texte en pointillés pour le modifier. Les changements sont enregistrés dans ce navigateur.</p>
+    <div class="editbar__actions">
+      <button type="button" class="btn btn--ink" data-action="new">+ Nouvel article</button>
+      <button type="button" class="btn" data-action="export">Exporter</button>
+      <button type="button" class="btn" data-action="import">Importer</button>
+      <button type="button" class="btn btn--ghost" data-action="reset">Réinitialiser</button>
+    </div>
+    <input type="file" id="importInput" accept=".js,.json,application/json,text/javascript" hidden>
+  </div>
+
+  <div class="modal" id="modal" hidden></div>
+
+  <script src="data/contenu.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
