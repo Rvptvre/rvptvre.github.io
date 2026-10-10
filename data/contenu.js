@@ -1,22 +1,31 @@
 /*
  * RVPTURE — contenu du site
  * --------------------------------------------------------------
- * Ce fichier contient TOUT le contenu publié : textes de l'accueil,
- * rubriques et articles. Vous pouvez :
- *   - le modifier directement à la main (textes, images, articles) ;
- *   - ou utiliser le « mode Édition » du site puis cliquer sur
- *     « Exporter » : le site télécharge un nouveau contenu.js qui
- *     remplace celui-ci.
+ * Ce fichier contient TOUT le contenu du site : textes de l'accueil,
+ * rubriques et articles. Le site publié est en lecture seule :
+ * pour le modifier, éditez ce fichier puis republiez le site.
  *
- * Mise en forme du corps des articles (champ "corps") :
- *   - un paragraphe par bloc, séparés par une ligne vide ;
+ * AJOUTER UN ARTICLE : copiez un bloc { ... } de la liste "articles",
+ * collez-le juste après (séparé par une virgule) et changez :
+ *   - "id"       : identifiant unique, sans espace ni accent (sert d'adresse) ;
+ *   - "section"  : "droit" ou "art" ;
+ *   - "rubrique" : "actualite", "portrait" (droit)
+ *                  ou "mode", "cinema-theatre", "expositions" (art) ;
+ *   - "titre", "chapo", "auteur", "date" (AAAA-MM-JJ),
+ *     "image" (photo du polaroïd), "legende", "corps" (le texte).
+ *
+ * Mise en forme du "corps" (dans le texte, \n = retour à la ligne) :
+ *   - paragraphes séparés par une ligne vide (\n\n) ;
  *   - "## Intertitre" pour un intertitre ;
  *   - "> Citation" pour une citation ;
- *   - "![Légende](chemin/ou/url-de-l-image.jpg)" pour une image (polaroïd) ;
+ *   - "![Légende](images/photo.jpg)" pour une image (polaroïd) ;
  *   - **gras**, *italique*, [lien](https://...).
  *
- * Images : mettez vos fichiers dans le dossier images/ et indiquez
+ * Images : déposez vos fichiers dans le dossier images/ et indiquez
  * "images/mon-fichier.jpg", ou utilisez une adresse https://...
+ *
+ * Attention aux guillemets : dans un texte, écrivez \" pour un guillemet
+ * droit, ou utilisez les guillemets français « ».
  */
 window.RVPTURE_CONTENT = {
   "site": {
@@ -193,7 +202,5 @@ window.RVPTURE_CONTENT = {
       "legende": "",
       "corps": "Loin des grandes foires, une nouvelle génération de galeries prend des risques et expose des artistes encore inconnus du grand public.\n\nVisite guidée de trois lieux qui font bouger la scène.\n\n*Texte d'exemple — à remplacer par votre article.*"
     }
-  ],
-
-  "media": {}
+  ]
 };
