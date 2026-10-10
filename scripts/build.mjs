@@ -30,7 +30,8 @@ const STRUCTURE = [
   { id: 'art', titre: 'Art', sous: [
     { id: 'mode', titre: 'Mode' },
     { id: 'cinema-theatre', titre: 'Cinéma – Théâtre' },
-    { id: 'expositions', titre: 'Expositions' }
+    { id: 'expositions', titre: 'Expositions' },
+    { id: 'musique', titre: 'Musique' }
   ] }
 ];
 

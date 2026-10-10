@@ -42,6 +42,8 @@ content:
               label: Art — Cinéma – Théâtre
             - name: art/expositions
               label: Art — Expositions
+            - name: art/musique
+              label: Art — Musique
       - name: date
         label: Date de publication
         type: date
@@ -142,4 +144,7 @@ content:
         type: text
       - name: expositions
         label: Art › Expositions — introduction
+        type: text
+      - name: musique
+        label: Art › Musique — introduction
         type: text
