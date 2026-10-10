@@ -2,55 +2,17 @@
 (function () {
   'use strict';
 
-  var STORAGE_KEY = 'rvpture-contenu-v1';
-  var EDIT_KEY = 'rvpture-edition';
-
   var $ = function (sel, root) { return (root || document).querySelector(sel); };
   var $$ = function (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); };
-  var clone = function (o) { return JSON.parse(JSON.stringify(o)); };
 
   var app = $('#app');
-  var content = loadContent();
-  var editMode = false;
-  try { editMode = localStorage.getItem(EDIT_KEY) === '1'; } catch (e) { /* stockage indisponible */ }
 
-  /* ------------------------------------------------------------------
-   * Stockage
-   * ------------------------------------------------------------------ */
-  function loadContent() {
-    try {
-      var raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        var parsed = JSON.parse(raw);
-        if (isValidContent(parsed)) return normalize(parsed);
-      }
-    } catch (e) { /* stockage indisponible ou corrompu */ }
-    return normalize(clone(window.RVPTURE_CONTENT || {}));
-  }
-
-  function normalize(c) {
-    c.site = c.site || {};
-    c.site.valeurs = c.site.valeurs || [];
-    c.sections = c.sections || [];
-    c.articles = c.articles || [];
-    c.media = c.media || {};
-    return c;
-  }
-
-  function isValidContent(c) {
-    return c && typeof c === 'object' && Array.isArray(c.sections) && Array.isArray(c.articles);
-  }
-
-  function save() {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(content));
-      return true;
-    } catch (e) {
-      alert("Impossible d'enregistrer : l'espace de stockage du navigateur est plein (les images importées sont volumineuses).\n\n" +
-        "Cliquez sur « Exporter » pour sauvegarder votre travail dans un fichier, ou utilisez des adresses d'images (https://…) plutôt que des fichiers.");
-      return false;
-    }
-  }
+  // Le contenu vient uniquement de data/contenu.js : le site publié est en lecture seule.
+  var content = window.RVPTURE_CONTENT || {};
+  content.site = content.site || {};
+  content.site.valeurs = content.site.valeurs || [];
+  content.sections = content.sections || [];
+  content.articles = content.articles || [];
 
   /* ------------------------------------------------------------------
    * Utilitaires
@@ -63,10 +25,6 @@
 
   function norm(s) {
     return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
-  }
-
-  function slugify(s) {
-    return norm(s).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60) || 'article';
   }
 
   function hashNum(s) {
@@ -92,17 +50,9 @@
     return path.split('.').reduce(function (o, k) { return o == null ? undefined : o[k]; }, obj);
   }
 
-  function setPath(obj, path, value) {
-    var keys = path.split('.');
-    var last = keys.pop();
-    var target = keys.reduce(function (o, k) { return o[k]; }, obj);
-    if (target) target[last] = value;
-  }
-
-  // Résout une source d'image : "media:xxx" (image importée) ou adresse classique
+  // Résout une source d'image (fichier du dossier images/ ou adresse https://)
   function imgSrc(s) {
     s = String(s || '').trim();
-    if (s.indexOf('media:') === 0) return content.media[s.slice(6)] || '';
     if (/^(https?:\/\/|data:image\/|\/|\.{0,2}\/?[\w-])/i.test(s) && !/^\s*javascript:/i.test(s)) return s;
     return '';
   }
@@ -138,9 +88,10 @@
     return (sec ? sec.titre : '') + (rub ? ' · ' + rub.titre : '');
   }
 
-  function editable(path, tag, cls) {
+  // Texte du site (défini dans data/contenu.js) placé dans une balise
+  function text(path, tag, cls) {
     tag = tag || 'span';
-    return '<' + tag + ' data-edit="' + path + '"' + (cls ? ' class="' + cls + '"' : '') + '>' +
+    return '<' + tag + (cls ? ' class="' + cls + '"' : '') + '>' +
       esc(getPath(content, path) || '') + '</' + tag + '>';
   }
 
@@ -208,14 +159,9 @@
   function polaroidGrid(list) {
     if (!list.length) {
       return '<div class="empty"><p class="empty__title">Aucun article pour le moment.</p>' +
-        (editMode ? '<p>Cliquez sur « + Nouvel article » pour en ajouter un.</p>' : '<p>Revenez bientôt !</p>') + '</div>';
+        '<p>Revenez bientôt !</p></div>';
     }
     return '<div class="pgrid">' + list.map(function (a) { return polaroid(a); }).join('') + '</div>';
-  }
-
-  function addButton(secId, rubId) {
-    if (!editMode) return '';
-    return '<button type="button" class="btn btn--ink add-btn" data-new="' + esc(secId) + '|' + esc(rubId || '') + '">+ Ajouter un article ici</button>';
   }
 
   function card(a) {
@@ -249,7 +195,7 @@
     var latest = sorted(content.articles).slice(0, 10);
 
     var aboutItalic = esc(s.aProposItalique || '');
-    if (s.motEntoure && !editMode) {
+    if (s.motEntoure) {
       var w = esc(s.motEntoure);
       aboutItalic = aboutItalic.replace(w, '<span class="circled">' + w + '</span>');
     }
@@ -260,15 +206,15 @@
           '<div class="torn torn--green" aria-hidden="true"></div>' +
           SVG.clip +
           '<div class="paper">' +
-            editable('site.editoTitre', 'h2', 'paper__title') +
-            editable('site.edito', 'p', 'paper__text') +
+            text('site.editoTitre', 'h2', 'paper__title') +
+            text('site.edito', 'p', 'paper__text') +
           '</div>' +
           SVG.star +
           (latest[0] ? '<a class="snap snap--hero" href="#/article/' + encodeURIComponent(latest[0].id) + '" aria-label="' + esc(latest[0].titre) + '">' + img(latest[0].image, '') + '</a>' : '') +
         '</div>' +
         '<div class="hero__text">' +
-          '<h1 class="hero__title">' + editable('site.heroItalique', 'em') + editable('site.heroCapitales', 'span', 'caps') + '</h1>' +
-          editable('site.heroTexte', 'p', 'hero__lead') +
+          '<h1 class="hero__title">' + text('site.heroItalique', 'em') + text('site.heroCapitales', 'span', 'caps') + '</h1>' +
+          text('site.heroTexte', 'p', 'hero__lead') +
           '<div class="hero__links"><a class="link-u" href="#/droit">Rubrique Droit</a><a class="link-u" href="#/art">Rubrique Art</a></div>' +
           SVG.loop +
         '</div>' +
@@ -276,7 +222,7 @@
 
       '<section class="une">' +
         '<div class="une__head">' +
-          '<div><p class="label">À la une</p>' + editable('site.uneTexte', 'p', 'une__lead') + '</div>' +
+          '<div><p class="label">À la une</p>' + text('site.uneTexte', 'p', 'une__lead') + '</div>' +
           '<div class="carousel-nav"><button type="button" class="link-u" data-scroll="-1">Précédent</button><button type="button" class="link-u" data-scroll="1">Suivant</button></div>' +
         '</div>' +
         '<div class="carousel" id="carousel">' + latest.map(card).join('') + '</div>' +
@@ -288,7 +234,7 @@
         '<div class="bigcard__body">' +
           '<p class="label">Rubrique</p>' +
           '<h2 class="bigcard__title"><a href="#/' + esc(sec.id) + '">' + esc(sec.titre) + '</a></h2>' +
-          editable('sections.' + i + '.intro', 'p', 'bigcard__intro') +
+          text('sections.' + i + '.intro', 'p', 'bigcard__intro') +
           '<div class="pills">' + (sec.sous || []).map(function (r) {
             return '<a class="pill" href="#/' + esc(sec.id) + '/' + esc(r.id) + '">' + esc(r.titre) + '</a>';
           }).join('') + '</div>' +
@@ -304,12 +250,12 @@
     var cover = latest[2] || latest[0];
     html += '<section class="about">' +
       '<p class="label">Qui sommes-nous</p>' +
-      '<p class="about__big">' + editable('site.aPropos') + ' <em' + (editMode ? ' data-edit="site.aProposItalique"' : '') + '>' + aboutItalic + '</em></p>' +
+      '<p class="about__big">' + text('site.aPropos') + ' <em>' + aboutItalic + '</em></p>' +
       (cover ? '<div class="stamp" aria-hidden="true"><span class="torn torn--gold"></span><div class="stamp__inner">' + img(cover.image, '') + '</div></div>' : '') +
       '<span class="tape tape--about" aria-hidden="true"></span>' +
       '<p class="label">Nos valeurs</p>' +
       '<div class="values">' + (s.valeurs || []).map(function (v, i) {
-        return '<p>' + editable('site.valeurs.' + i + '.titre', 'strong') + ' ' + editable('site.valeurs.' + i + '.texte') + '</p>';
+        return '<p>' + text('site.valeurs.' + i + '.titre', 'strong') + ' ' + text('site.valeurs.' + i + '.texte') + '</p>';
       }).join('') + '</div>' +
       '</section>';
 
@@ -321,7 +267,7 @@
     var all = articlesOf(sec.id);
     var html = giantTitle(sec.titre, all) +
       '<div class="page-intro">' + crumbs([{ label: 'Accueil', href: '#/' }, { label: sec.titre }]) +
-      editable('sections.' + idx + '.intro', 'p', 'page-intro__text') + '</div>';
+      text('sections.' + idx + '.intro', 'p', 'page-intro__text') + '</div>';
 
     html += (sec.sous || []).map(function (r, j) {
       var list = articlesOf(sec.id, r.id);
@@ -329,11 +275,11 @@
         '<div class="bigcard__row">' +
           '<div><p class="label">' + esc(sec.titre) + '</p>' +
           '<h2 class="bigcard__title"><a href="#/' + esc(sec.id) + '/' + esc(r.id) + '">' + esc(r.titre) + '</a></h2>' +
-          editable('sections.' + idx + '.sous.' + j + '.intro', 'p', 'bigcard__intro') + '</div>' +
+          text('sections.' + idx + '.sous.' + j + '.intro', 'p', 'bigcard__intro') + '</div>' +
           '<p class="bigcard__num">(0' + (j + 1) + ')</p>' +
         '</div>' +
         polaroidGrid(list.slice(0, 4)) +
-        '<div class="bigcard__foot">' + addButton(sec.id, r.id) +
+        '<div class="bigcard__foot">' +
           '<a class="link-u" href="#/' + esc(sec.id) + '/' + esc(r.id) + '">Tous les articles « ' + esc(r.titre) + ' » (' + list.length + ')</a></div>' +
       '</section>';
     }).join('');
@@ -347,11 +293,10 @@
     return giantTitle(rub.titre, list) +
       '<div class="page-intro">' +
         crumbs([{ label: 'Accueil', href: '#/' }, { label: sec.titre, href: '#/' + sec.id }, { label: rub.titre }]) +
-        editable('sections.' + idx + '.sous.' + j + '.intro', 'p', 'page-intro__text') +
+        text('sections.' + idx + '.sous.' + j + '.intro', 'p', 'page-intro__text') +
         '<div class="subnav">' + sec.sous.map(function (r) {
           return '<a class="pill' + (r === rub ? ' is-active' : '') + '" href="#/' + esc(sec.id) + '/' + esc(r.id) + '">' + esc(r.titre) + '</a>';
         }).join('') + '</div>' +
-        addButton(sec.id, rub.id) +
       '</div>' +
       '<section class="inventory">' + polaroidGrid(list) + '</section>';
   }
@@ -372,8 +317,6 @@
         '<h1 class="article__title">' + esc(a.titre) + '</h1>' +
         (a.chapo ? '<p class="article__chapo">' + esc(a.chapo) + '</p>' : '') +
         '<p class="article__meta">' + (a.auteur ? 'Par ' + esc(a.auteur) : '') + (a.auteur && a.date ? ' — ' : '') + formatDate(a.date) + '</p>' +
-        (editMode ? '<div class="article__tools"><button type="button" class="btn btn--ink" data-edit-article="' + esc(a.id) + '">Modifier cet article</button>' +
-          '<button type="button" class="btn btn--ghost" data-delete-article="' + esc(a.id) + '">Supprimer</button></div>' : '') +
       '</header>' +
       (imgSrc(a.image) ? '<figure class="polaroid polaroid--hero" style="--r:' + tilt(a.id, 2) + 'deg">' +
         '<span class="tape" aria-hidden="true"></span><span class="tape tape--b" aria-hidden="true"></span>' +
@@ -470,37 +413,6 @@
         if (car) car.scrollBy({ left: Number(b.getAttribute('data-scroll')) * car.clientWidth * 0.8, behavior: 'smooth' });
       });
     });
-
-    // Textes modifiables
-    $$('[data-edit]').forEach(function (el) {
-      if (!editMode) { el.removeAttribute('contenteditable'); return; }
-      el.setAttribute('contenteditable', 'true');
-      el.setAttribute('spellcheck', 'true');
-      el.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); });
-      el.addEventListener('paste', function (e) {
-        e.preventDefault();
-        var text = (e.clipboardData || window.clipboardData).getData('text/plain');
-        document.execCommand('insertText', false, text);
-      });
-      el.addEventListener('blur', function () {
-        var path = el.getAttribute('data-edit');
-        var val = el.innerText.replace(/\n{3,}/g, '\n\n').trim();
-        if (getPath(content, path) !== val) { setPath(content, path, val); save(); }
-      });
-    });
-
-    $$('[data-new]').forEach(function (b) {
-      b.addEventListener('click', function () {
-        var p = b.getAttribute('data-new').split('|');
-        openEditor(null, p[0], p[1]);
-      });
-    });
-    $$('[data-edit-article]').forEach(function (b) {
-      b.addEventListener('click', function () { openEditor(b.getAttribute('data-edit-article')); });
-    });
-    $$('[data-delete-article]').forEach(function (b) {
-      b.addEventListener('click', function () { deleteArticle(b.getAttribute('data-delete-article')); });
-    });
   }
 
   /* ------------------------------------------------------------------
@@ -565,315 +477,8 @@
     if (a && a.getAttribute('href') === location.hash) closeDrawer();
   });
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') {
-      if (!$('#modal').hidden) closeEditor();
-      else closeDrawer();
-    }
+    if (e.key === 'Escape') closeDrawer();
   });
-
-  /* ------------------------------------------------------------------
-   * Mode édition
-   * ------------------------------------------------------------------ */
-  function applyEditMode() {
-    document.body.classList.toggle('is-editing', editMode);
-    $('#editbar').hidden = !editMode;
-    $('#editToggle').textContent = editMode ? 'Quitter l\'édition' : 'Éditer';
-    $('#editToggle').setAttribute('aria-pressed', editMode ? 'true' : 'false');
-  }
-
-  $('#editToggle').addEventListener('click', function () {
-    if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
-    editMode = !editMode;
-    try { localStorage.setItem(EDIT_KEY, editMode ? '1' : '0'); } catch (e) { /* ignore */ }
-    applyEditMode();
-    render();
-  });
-
-  $('#editbar').addEventListener('click', function (e) {
-    var b = e.target.closest('[data-action]');
-    if (!b) return;
-    var action = b.getAttribute('data-action');
-    if (action === 'new') {
-      var parts = parseRoute();
-      if (parts[0] === 'article') {
-        var cur = content.articles.filter(function (x) { return x.id === parts[1]; })[0];
-        openEditor(null, cur && cur.section, cur && cur.rubrique);
-      } else openEditor(null, parts[0], parts[1]);
-    }
-    if (action === 'export') exportContent();
-    if (action === 'import') $('#importInput').click();
-    if (action === 'reset') {
-      if (confirm('Effacer toutes les modifications faites dans ce navigateur et revenir au contenu publié (data/contenu.js) ?')) {
-        try { localStorage.removeItem(STORAGE_KEY); } catch (err) { /* ignore */ }
-        content = normalize(clone(window.RVPTURE_CONTENT || {}));
-        render();
-      }
-    }
-  });
-
-  function exportContent() {
-    gcMedia();
-    var text = '/* RVPTURE — contenu exporté le ' + new Date().toLocaleString('fr-FR') + '.\n' +
-      ' * Remplacez le fichier data/contenu.js du site par celui-ci pour publier vos modifications. */\n' +
-      'window.RVPTURE_CONTENT = ' + JSON.stringify(content, null, 2) + ';\n';
-    var blob = new Blob([text], { type: 'text/javascript' });
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement('a');
-    a.href = url;
-    a.download = 'contenu.js';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
-  }
-
-  $('#importInput').addEventListener('change', function () {
-    var file = this.files[0];
-    this.value = '';
-    if (!file) return;
-    var reader = new FileReader();
-    reader.onload = function () {
-      try {
-        var t = String(reader.result);
-        var data = JSON.parse(t.slice(t.indexOf('{'), t.lastIndexOf('}') + 1));
-        if (!isValidContent(data)) throw new Error('format');
-        content = normalize(data);
-        save();
-        render();
-        alert('Contenu importé.');
-      } catch (err) {
-        alert('Ce fichier ne semble pas être un contenu Rvpture valide.');
-      }
-    };
-    reader.readAsText(file);
-  });
-
-  // Supprime les images importées qui ne sont plus utilisées
-  function gcMedia() {
-    var used = {};
-    var mark = function (s) {
-      String(s || '').replace(/media:([\w-]+)/g, function (m, id) { used[id] = true; return m; });
-    };
-    content.articles.forEach(function (a) { mark(a.image); mark(a.corps); });
-    Object.keys(content.media).forEach(function (id) { if (!used[id]) delete content.media[id]; });
-  }
-
-  function deleteArticle(id) {
-    var a = content.articles.filter(function (x) { return x.id === id; })[0];
-    if (!a || !confirm('Supprimer définitivement « ' + a.titre + ' » ?')) return;
-    content.articles = content.articles.filter(function (x) { return x.id !== id; });
-    gcMedia();
-    save();
-    location.hash = '#/' + a.section + (a.rubrique ? '/' + a.rubrique : '');
-  }
-
-  /* ---------- Formulaire d'article ---------- */
-  var pendingMedia = [];
-
-  function resizeImage(file, max) {
-    max = max || 1400;
-    return new Promise(function (resolve, reject) {
-      var reader = new FileReader();
-      reader.onerror = reject;
-      reader.onload = function () {
-        var im = new Image();
-        im.onerror = reject;
-        im.onload = function () {
-          var scale = Math.min(1, max / Math.max(im.width, im.height));
-          var c = document.createElement('canvas');
-          c.width = Math.round(im.width * scale);
-          c.height = Math.round(im.height * scale);
-          var ctx = c.getContext('2d');
-          ctx.fillStyle = '#ffffff';
-          ctx.fillRect(0, 0, c.width, c.height);
-          ctx.drawImage(im, 0, 0, c.width, c.height);
-          resolve(c.toDataURL('image/jpeg', 0.82));
-        };
-        im.src = reader.result;
-      };
-      reader.readAsDataURL(file);
-    });
-  }
-
-  function storeImage(file) {
-    return resizeImage(file).then(function (data) {
-      var id = Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
-      content.media[id] = data;
-      pendingMedia.push(id);
-      return 'media:' + id;
-    });
-  }
-
-  function rubOptions(secId, rubId) {
-    return content.sections.map(function (sec) {
-      return '<optgroup label="' + esc(sec.titre) + '">' + (sec.sous || []).map(function (r) {
-        var v = sec.id + '|' + r.id;
-        return '<option value="' + esc(v) + '"' + (sec.id === secId && r.id === rubId ? ' selected' : '') + '>' + esc(sec.titre + ' — ' + r.titre) + '</option>';
-      }).join('') + '</optgroup>';
-    }).join('');
-  }
-
-  function openEditor(id, secId, rubId) {
-    var a = id ? content.articles.filter(function (x) { return x.id === id; })[0] : null;
-    var isNew = !a;
-    if (isNew) {
-      var sec = findSection(secId) || content.sections[0];
-      var rub = findRub(sec, rubId) || (sec && sec.sous[0]);
-      a = { titre: '', chapo: '', auteur: 'La rédaction', date: new Date().toISOString().slice(0, 10), image: '', legende: '', corps: '',
-        section: sec ? sec.id : '', rubrique: rub ? rub.id : '' };
-    }
-    pendingMedia = [];
-    var cover = a.image || '';
-
-    var modal = $('#modal');
-    modal.innerHTML = '<div class="modal__box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">' +
-      '<span class="tape tape--modal" aria-hidden="true"></span>' +
-      '<form class="form" id="articleForm" novalidate>' +
-        '<div class="form__head"><h2 id="modalTitle">' + (isNew ? 'Nouvel article' : 'Modifier l\'article') + '</h2>' +
-        '<button type="button" class="text-btn" data-close>Fermer ✕</button></div>' +
-        '<label class="field"><span>Titre *</span><input name="titre" required value="' + esc(a.titre) + '"></label>' +
-        '<div class="form__row">' +
-          '<label class="field"><span>Rubrique *</span><select name="rub">' + rubOptions(a.section, a.rubrique) + '</select></label>' +
-          '<label class="field"><span>Date</span><input type="date" name="date" value="' + esc(a.date) + '"></label>' +
-        '</div>' +
-        '<label class="field"><span>Auteur·rice</span><input name="auteur" value="' + esc(a.auteur) + '"></label>' +
-        '<label class="field"><span>Chapô (texte d\'introduction)</span><textarea name="chapo" rows="2">' + esc(a.chapo) + '</textarea></label>' +
-        '<fieldset class="field field--cover"><span>Image principale (polaroïd)</span>' +
-          '<div class="cover">' +
-            '<div class="cover__preview" id="coverPreview">' + img(cover, '') + '</div>' +
-            '<div class="cover__ctrl">' +
-              '<label class="btn btn--file">Choisir une image…<input type="file" accept="image/*" id="coverFile" hidden></label>' +
-              '<label class="field field--inline"><span>ou adresse de l\'image</span><input name="imageUrl" placeholder="https://… ou images/photo.jpg" value="' + esc(cover.indexOf('media:') === 0 ? '' : cover) + '"></label>' +
-              '<label class="field field--inline"><span>Légende</span><input name="legende" value="' + esc(a.legende) + '"></label>' +
-            '</div>' +
-          '</div>' +
-        '</fieldset>' +
-        '<div class="field"><span>Texte de l\'article</span>' +
-          '<div class="toolbar" role="toolbar" aria-label="Mise en forme">' +
-            '<button type="button" data-fmt="h2">Intertitre</button>' +
-            '<button type="button" data-fmt="quote">Citation</button>' +
-            '<button type="button" data-fmt="bold"><strong>Gras</strong></button>' +
-            '<button type="button" data-fmt="italic"><em>Italique</em></button>' +
-            '<button type="button" data-fmt="link">Lien</button>' +
-            '<label class="toolbar__img">+ Image dans le texte<input type="file" accept="image/*" id="bodyFile" hidden></label>' +
-          '</div>' +
-          '<textarea name="corps" rows="14" id="corps" placeholder="Écrivez ici. Laissez une ligne vide entre deux paragraphes.">' + esc(a.corps) + '</textarea>' +
-          '<p class="hint">Une ligne vide = nouveau paragraphe · <code>## </code> intertitre · <code>&gt; </code> citation · <code>**gras**</code> · <code>*italique*</code> · <code>![légende](image)</code> image.</p>' +
-        '</div>' +
-        '<p class="form__error" id="formError" role="alert"></p>' +
-        '<div class="form__actions">' +
-          '<button type="button" class="btn btn--ghost" data-close>Annuler</button>' +
-          '<button type="submit" class="btn btn--ink">' + (isNew ? 'Publier l\'article' : 'Enregistrer') + '</button>' +
-        '</div>' +
-      '</form></div>';
-    modal.hidden = false;
-    document.body.classList.add('modal-open');
-
-    var form = $('#articleForm');
-    var corps = $('#corps');
-    form.titre.focus();
-
-    $$('[data-close]', modal).forEach(function (b) { b.addEventListener('click', closeEditor); });
-    modal.onclick = function (e) { if (e.target === modal) closeEditor(); };
-
-    $('#coverFile').addEventListener('change', function () {
-      var f = this.files[0];
-      if (!f) return;
-      storeImage(f).then(function (ref) {
-        cover = ref;
-        form.imageUrl.value = '';
-        $('#coverPreview').innerHTML = img(ref, '');
-      }).catch(function () { alert('Image illisible.'); });
-    });
-    form.imageUrl.addEventListener('input', function () {
-      cover = this.value.trim();
-      $('#coverPreview').innerHTML = img(cover, '');
-    });
-
-    function wrap(before, after, placeholder) {
-      var s = corps.selectionStart, e = corps.selectionEnd;
-      var sel = corps.value.slice(s, e) || placeholder;
-      corps.setRangeText(before + sel + after, s, e, 'end');
-      corps.focus();
-    }
-    function block(text) {
-      var s = corps.selectionStart;
-      var v = corps.value;
-      var pre = v.slice(0, s).replace(/\s*$/, '');
-      var ins = (pre ? '\n\n' : '') + text + '\n\n';
-      corps.setRangeText(ins, pre.length, corps.selectionEnd, 'end');
-      corps.focus();
-    }
-    $$('[data-fmt]', modal).forEach(function (b) {
-      b.addEventListener('click', function () {
-        var f = b.getAttribute('data-fmt');
-        var sel = corps.value.slice(corps.selectionStart, corps.selectionEnd);
-        if (f === 'bold') wrap('**', '**', 'texte en gras');
-        if (f === 'italic') wrap('*', '*', 'texte en italique');
-        if (f === 'h2') block('## ' + (sel || 'Intertitre'));
-        if (f === 'quote') block('> ' + (sel || 'Citation'));
-        if (f === 'link') {
-          var url = prompt('Adresse du lien (https://…) :', 'https://');
-          if (url) wrap('[', '](' + url.trim() + ')', 'texte du lien');
-        }
-      });
-    });
-    $('#bodyFile').addEventListener('change', function () {
-      var f = this.files[0];
-      this.value = '';
-      if (!f) return;
-      storeImage(f).then(function (ref) {
-        var cap = prompt('Légende de l\'image (facultatif) :', '') || '';
-        block('![' + cap.replace(/[\[\]]/g, '') + '](' + ref + ')');
-      }).catch(function () { alert('Image illisible.'); });
-    });
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var titre = form.titre.value.trim();
-      var rubVal = form.rub.value.split('|');
-      if (!titre) { $('#formError').textContent = 'Le titre est obligatoire.'; form.titre.focus(); return; }
-      if (!rubVal[0]) { $('#formError').textContent = 'Choisissez une rubrique.'; return; }
-
-      var data = {
-        titre: titre,
-        section: rubVal[0],
-        rubrique: rubVal[1],
-        date: form.date.value,
-        auteur: form.auteur.value.trim(),
-        chapo: form.chapo.value.trim(),
-        image: cover,
-        legende: form.legende.value.trim(),
-        corps: form.corps.value.replace(/\r/g, '').trim()
-      };
-
-      if (isNew) {
-        data.id = slugify(titre);
-        while (content.articles.some(function (x) { return x.id === data.id; })) data.id = slugify(titre) + '-' + Date.now().toString(36).slice(-4);
-        content.articles.push(data);
-      } else {
-        Object.keys(data).forEach(function (k) { a[k] = data[k]; });
-        data.id = a.id;
-      }
-      gcMedia();
-      if (!save()) return;
-      pendingMedia = [];
-      closeEditor(true);
-      var target = '#/article/' + encodeURIComponent(data.id);
-      if (location.hash === target) render(); else location.hash = target;
-    });
-  }
-
-  function closeEditor(saved) {
-    if (saved !== true && pendingMedia.length) {
-      pendingMedia.forEach(function (id) { delete content.media[id]; });
-    }
-    pendingMedia = [];
-    var modal = $('#modal');
-    modal.hidden = true;
-    modal.innerHTML = '';
-    document.body.classList.remove('modal-open');
-  }
 
   /* ------------------------------------------------------------------
    * Démarrage
@@ -885,6 +490,5 @@
     document.body.classList.toggle('is-scrolled', window.scrollY > 60);
   }, { passive: true });
 
-  applyEditMode();
   render();
 })();

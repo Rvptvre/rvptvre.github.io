@@ -16,9 +16,7 @@
     <div class="masthead__top">
       <p class="masthead__date" id="today"></p>
       <a href="#/" class="logo" aria-label="Rvpture — accueil">RVPTURE</a>
-      <div class="masthead__right">
-        <button class="text-btn" id="editToggle" type="button">Éditer</button>
-      </div>
+      <p class="masthead__right masthead__date">Droit &amp; Art</p>
     </div>
     <nav class="mainnav" aria-label="Navigation principale">
       <button class="mainnav__menu" id="menuBtn" type="button" aria-controls="drawer" aria-expanded="false">
@@ -50,20 +48,6 @@
   <main id="app" tabindex="-1"></main>
 
   <footer class="footer" id="footer"></footer>
-
-  <!-- Barre du mode édition -->
-  <div class="editbar" id="editbar" hidden>
-    <p class="editbar__info"><strong>Mode édition</strong> — cliquez sur un texte en pointillés pour le modifier. Les changements sont enregistrés dans ce navigateur.</p>
-    <div class="editbar__actions">
-      <button type="button" class="btn btn--ink" data-action="new">+ Nouvel article</button>
-      <button type="button" class="btn" data-action="export">Exporter</button>
-      <button type="button" class="btn" data-action="import">Importer</button>
-      <button type="button" class="btn btn--ghost" data-action="reset">Réinitialiser</button>
-    </div>
-    <input type="file" id="importInput" accept=".js,.json,application/json,text/javascript" hidden>
-  </div>
-
-  <div class="modal" id="modal" hidden></div>
 
   <script src="data/contenu.js"></script>
   <script src="js/app.js"></script>
