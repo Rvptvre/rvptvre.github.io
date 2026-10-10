@@ -37,7 +37,7 @@ Astuce : ajoutez app.pagescms.org à vos favoris, c'est votre « back-office ».
 1. Dans Pages CMS, cliquez sur **Articles**, puis sur le bouton d'ajout (**Add an entry**).
 2. Remplissez le formulaire :
    - **Titre** : il sert aussi à créer l'adresse de l'article ;
-   - **Rubrique** : Droit — Actualité, Droit — Portrait, Art — Mode, Art — Cinéma – Théâtre ou Art — Expositions ;
+   - **Rubrique** : Droit — Actualité, Droit — Portrait, Art — Mode, Art — Cinéma – Théâtre, Art — Expositions ou Art — Musique ;
    - **Date de publication** : les articles les plus récents apparaissent en premier ;
    - **Auteur·rice**, **Chapô** (texte d'introduction) ;
    - **Photo principale** : cliquez dessus, puis **Upload** pour envoyer une photo depuis votre ordinateur
