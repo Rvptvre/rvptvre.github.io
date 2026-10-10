@@ -96,40 +96,6 @@
   }
 
   /* ------------------------------------------------------------------
-   * Mise en forme du corps des articles
-   * ------------------------------------------------------------------ */
-  function inline(t) {
-    t = esc(t);
-    t = t.replace(/\[([^\]]+)\]\(((?:https?:\/\/|#|mailto:)[^)\s]+)\)/g, function (m, label, url) {
-      var ext = /^https?:/.test(url);
-      return '<a href="' + url + '"' + (ext ? ' target="_blank" rel="noopener"' : '') + '>' + label + '</a>';
-    });
-    t = t.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-    t = t.replace(/\*(.+?)\*/g, '<em>$1</em>');
-    return t.replace(/\n/g, '<br>');
-  }
-
-  function renderBody(text, seed) {
-    var i = 0;
-    return String(text || '').split(/\n\s*\n/).map(function (block) {
-      block = block.trim();
-      if (!block) return '';
-      var m = block.match(/^!\[([^\]]*)\]\(([^)\s]+)\)$/);
-      if (m) {
-        i++;
-        return '<figure class="polaroid polaroid--figure" style="--r:' + tilt(seed + i, 2.5) + 'deg">' +
-          '<span class="tape" aria-hidden="true"></span>' +
-          '<div class="polaroid__img polaroid__img--free">' + img(m[2], m[1]) + '</div>' +
-          (m[1] ? '<figcaption class="polaroid__caption polaroid__caption--small">' + esc(m[1]) + '</figcaption>' : '<div class="polaroid__pad"></div>') +
-          '</figure>';
-      }
-      if (/^##\s+/.test(block)) return '<h2>' + inline(block.replace(/^##\s+/, '')) + '</h2>';
-      if (/^>\s?/.test(block)) return '<blockquote>' + inline(block.replace(/^>\s?/gm, '')) + '</blockquote>';
-      return '<p>' + inline(block) + '</p>';
-    }).join('\n');
-  }
-
-  /* ------------------------------------------------------------------
    * Éléments décoratifs (SVG)
    * ------------------------------------------------------------------ */
   var SVG = {
@@ -323,7 +289,7 @@
         '<div class="polaroid__img polaroid__img--free">' + img(a.image, a.legende || a.titre) + '</div>' +
         (a.legende ? '<figcaption class="polaroid__caption polaroid__caption--small">' + esc(a.legende) + '</figcaption>' : '<div class="polaroid__pad"></div>') +
         '</figure>' : '') +
-      '<div class="article__body">' + renderBody(a.corps, a.id) + '</div>' +
+      '<div class="article__body" data-seed="' + esc(a.id) + '">' + (a.html || '') + '</div>' +
       '<footer class="article__foot">' +
         (rub ? '<a class="link-u" href="#/' + esc(sec.id) + '/' + esc(rub.id) + '">← Retour à « ' + esc(rub.titre) + ' »</a>' : '<a class="link-u" href="#/">← Accueil</a>') +
       '</footer>' +
@@ -406,6 +372,18 @@
   }
 
   function afterRender() {
+    // Inclinaison des photos polaroïd dans le texte des articles
+    var body = $('.article__body');
+    if (body) {
+      var seed = body.getAttribute('data-seed') || '';
+      $$('.polaroid--figure', body).forEach(function (f, i) {
+        f.style.setProperty('--r', tilt(seed + (i + 1), 2.5) + 'deg');
+      });
+      $$('img', body).forEach(function (im) {
+        im.addEventListener('error', function () { im.classList.add('is-broken'); });
+      });
+    }
+
     // Carrousel « À la une »
     var car = $('#carousel');
     $$('[data-scroll]').forEach(function (b) {
@@ -452,7 +430,7 @@
     }
     var terms = q.split(/\s+/);
     list = sorted(content.articles).filter(function (a) {
-      var hay = norm([a.titre, a.chapo, a.corps, a.auteur, rubLabel(a)].join(' '));
+      var hay = norm([a.titre, a.chapo, a.texte, a.auteur, rubLabel(a)].join(' '));
       return terms.every(function (t) { return hay.indexOf(t) !== -1; });
     });
     box.innerHTML = '<p class="label">' + list.length + ' résultat' + (list.length > 1 ? 's' : '') + '</p>' +

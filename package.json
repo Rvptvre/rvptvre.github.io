@@ -1,0 +1,13 @@
+{
+  "name": "rvpture",
+  "private": true,
+  "description": "Site du média Rvpture (Droit & Art)",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  },
+  "dependencies": {
+    "js-yaml": "5.4.3",
+    "marked": "18.1.0"
+  }
+}
