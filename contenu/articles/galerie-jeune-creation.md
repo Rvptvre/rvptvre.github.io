@@ -4,7 +4,7 @@ rubrique: art/expositions
 date: '2026-09-02'
 auteur: La rédaction
 chapo: 'Petits lieux, grandes ambitions : notre sélection d''espaces qui défendent les artistes émergents.'
-image: https://picsum.photos/seed/rvpture-galerie/900/1100
+image: /images/exemple-galerie-jeune-creation.jpg
 legende: ''
 publie: true
 ---

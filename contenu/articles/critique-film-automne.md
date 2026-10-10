@@ -4,7 +4,7 @@ rubrique: art/cinema-theatre
 date: '2026-10-08'
 auteur: La rédaction
 chapo: Deux personnages, une nuit, un secret. Notre critique du film qui fait parler.
-image: https://picsum.photos/seed/rvpture-cinema/900/1100
+image: /images/exemple-critique-film-automne.jpg
 legende: ''
 publie: true
 ---

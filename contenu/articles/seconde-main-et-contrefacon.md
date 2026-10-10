@@ -4,7 +4,7 @@ rubrique: art/mode
 date: '2026-09-14'
 auteur: La rédaction
 chapo: Transformer une pièce de luxe, est-ce créer ou contrefaire ? Quand la mode rencontre le droit.
-image: https://picsum.photos/seed/rvpture-upcycling/900/1100
+image: /images/exemple-seconde-main-et-contrefacon.jpg
 legende: ''
 publie: true
 ---

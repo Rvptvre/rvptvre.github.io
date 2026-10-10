@@ -4,7 +4,7 @@ rubrique: droit/actualite
 date: '2026-09-08'
 auteur: La rédaction
 chapo: 'Déréférencement, effacement, archives de presse : où en est-on vraiment ?'
-image: https://picsum.photos/seed/rvpture-oubli/900/1100
+image: /images/exemple-droit-a-l-oubli-numerique.jpg
 legende: ''
 publie: true
 ---

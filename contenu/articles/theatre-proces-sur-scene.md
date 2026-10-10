@@ -4,7 +4,7 @@ rubrique: art/cinema-theatre
 date: '2026-09-18'
 auteur: La rédaction
 chapo: De plus en plus de pièces s'emparent des grandes affaires judiciaires. Pourquoi le tribunal fascine-t-il autant le théâtre ?
-image: https://picsum.photos/seed/rvpture-theatre/900/1100
+image: /images/exemple-theatre-proces-sur-scene.jpg
 legende: ''
 publie: true
 ---

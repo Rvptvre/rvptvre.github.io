@@ -23,4 +23,4 @@ npm run build
 ```
 puis ouvrir `_site/index.html` dans un navigateur.
 
-Les articles et photos fournis sont des exemples (photos picsum.photos) à remplacer.
+Les articles fournis et leurs photos (images/exemple-*.jpg) sont des exemples à remplacer.

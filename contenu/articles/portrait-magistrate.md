@@ -4,7 +4,7 @@ rubrique: droit/portrait
 date: '2026-08-30'
 auteur: La rédaction
 chapo: Elle suit chaque année des centaines de dossiers. Portrait d'une magistrate passionnée.
-image: https://picsum.photos/seed/rvpture-juge/900/1100
+image: /images/exemple-portrait-magistrate.jpg
 legende: ''
 publie: true
 ---

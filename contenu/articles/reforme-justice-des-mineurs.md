@@ -4,7 +4,7 @@ rubrique: droit/actualite
 date: '2026-09-21'
 auteur: La rédaction
 chapo: 'Délais raccourcis, audience de culpabilité, mesures éducatives : ce qu''il faut retenir.'
-image: https://picsum.photos/seed/rvpture-justice/900/1100
+image: /images/exemple-reforme-justice-des-mineurs.jpg
 legende: Le tribunal pour enfants, au cœur de la réforme.
 publie: true
 ---

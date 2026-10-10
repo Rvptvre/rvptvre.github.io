@@ -4,7 +4,7 @@ rubrique: droit/actualite
 date: '2026-10-02'
 auteur: La rédaction
 chapo: Les images et textes produits par des IA bousculent les catégories classiques de la propriété intellectuelle. Tour d'horizon d'un débat qui ne fait que commencer.
-image: https://picsum.photos/seed/rvpture-ia/900/1100
+image: /images/exemple-intelligence-artificielle-et-droit-d-auteur.jpg
 legende: Une œuvre peut-elle exister sans auteur ?
 publie: true
 ---
