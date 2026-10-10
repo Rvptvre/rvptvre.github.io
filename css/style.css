@@ -733,6 +733,19 @@ a.polaroid:hover .polaroid__img img { transform: scale(1.04); }
   border-left: 2px dashed var(--ink);
 }
 .article__body a { text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.article__body > :not(p) { clear: both; }
+.article__body h1, .article__body h3, .article__body h4 { font-family: var(--serif); font-weight: 400; line-height: 1.05; margin: 1.5em 0 .5em; }
+.article__body h1 { font-size: clamp(36px, 3.6vw, 52px); }
+.article__body h3 { font-size: clamp(28px, 2.6vw, 36px); }
+.article__body h4 { font-size: 26px; font-style: italic; }
+.article__body ul, .article__body ol { margin: 0 0 1.2em; padding-left: 1.3em; }
+.article__body li { margin-bottom: .4em; }
+.article__body ul li::marker { content: '✶  '; font-size: .8em; }
+.article__body hr { border: 0; border-top: 2px dashed var(--ink); margin: 2.4em auto; width: 40%; }
+.article__body img:not(.polaroid img) { max-width: 100%; height: auto; margin: 1em auto; }
+.article__body blockquote p { margin: 0; }
+.article__body table { width: 100%; border-collapse: collapse; margin: 0 0 1.2em; font-size: .9em; }
+.article__body th, .article__body td { border: 1px solid var(--line); padding: 6px 10px; text-align: left; }
 .article__body .polaroid--figure { margin: 2.4em auto; max-width: 560px; }
 
 .article__foot { max-width: 700px; margin: 60px auto 0; padding-top: 26px; border-top: 1px solid var(--line); }

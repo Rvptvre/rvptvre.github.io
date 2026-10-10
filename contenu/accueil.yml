@@ -1,0 +1,18 @@
+editoTitre: Édito
+edito: 'Rvpture est un média indépendant qui fait se rencontrer deux mondes que tout semble opposer : la rigueur du droit et la liberté de l''art. Ici, on décrypte l''actualité juridique, on raconte celles et ceux qui la font, et on arpente les défilés, les salles obscures et les galeries.'
+heroItalique: Le droit, l'art
+heroCapitales: et tout ce qui fait rupture
+heroTexte: 'Analyses, portraits, critiques et coups de cœur : un regard neuf sur ce qui bouge dans les prétoires comme sur les scènes.'
+uneTexte: Les derniers articles publiés, toutes rubriques confondues.
+aPropos: 'Rvpture est un média né d''une conviction simple : le droit et la création parlent de la même chose, de nos libertés.'
+aProposItalique: Nous écrivons pour celles et ceux qui veulent comprendre sans renoncer au plaisir de lire.
+motEntoure: comprendre
+valeurs:
+  - titre: Rigueur.
+    texte: Chaque article s'appuie sur des sources vérifiées et des textes précis. Le droit ne souffre pas l'approximation.
+  - titre: Curiosité.
+    texte: Des tribunaux aux ateliers, nous allons chercher les histoires là où on ne les attend pas.
+  - titre: Clarté.
+    texte: Rendre lisible ce qui est complexe, sans jamais simplifier à l'excès. Écrire pour être compris.
+  - titre: Indépendance.
+    texte: Un regard libre, critique et sincère, au service de nos lectrices et lecteurs avant tout.

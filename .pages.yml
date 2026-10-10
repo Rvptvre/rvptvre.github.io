@@ -1,0 +1,145 @@
+# Configuration de l'interface d'édition Pages CMS (https://app.pagescms.org)
+# Elle décrit les formulaires proposés pour modifier le site.
+
+media:
+  input: images
+  output: /images
+  rename: safe
+  categories: [image]
+
+content:
+  - name: articles
+    label: Articles
+    type: collection
+    path: contenu/articles
+    filename: "{primary}.md"
+    view:
+      fields: [titre, rubrique, date, publie]
+      primary: titre
+      sort: [date, titre]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: titre
+        label: Titre
+        type: string
+        required: true
+      - name: rubrique
+        label: Rubrique
+        type: select
+        required: true
+        options:
+          placeholder: Choisir une rubrique
+          values:
+            - name: droit/actualite
+              label: Droit — Actualité
+            - name: droit/portrait
+              label: Droit — Portrait
+            - name: art/mode
+              label: Art — Mode
+            - name: art/cinema-theatre
+              label: Art — Cinéma – Théâtre
+            - name: art/expositions
+              label: Art — Expositions
+      - name: date
+        label: Date de publication
+        type: date
+        options:
+          format: yyyy-MM-dd
+      - name: auteur
+        label: Auteur·rice
+        type: string
+        default: La rédaction
+      - name: chapo
+        label: Chapô
+        description: Le court texte d'introduction affiché sous le titre.
+        type: text
+      - name: image
+        label: Photo principale (polaroïd)
+        description: Image affichée dans le polaroïd de l'article et dans les listes.
+        type: image
+      - name: legende
+        label: Légende de la photo
+        type: string
+      - name: publie
+        label: Publié sur le site
+        description: Décochez pour garder l'article en brouillon (il n'apparaîtra pas sur le site).
+        type: boolean
+        default: true
+      - name: body
+        label: Texte de l'article
+        description: Une image placée seule sur sa ligne s'affiche en polaroïd ; son texte alternatif sert de légende.
+        type: rich-text
+
+  - name: accueil
+    label: Page d'accueil
+    type: file
+    path: contenu/accueil.yml
+    fields:
+      - name: editoTitre
+        label: Titre de l'édito (papier avec trombone)
+        type: string
+      - name: edito
+        label: Texte de l'édito
+        type: text
+      - name: heroItalique
+        label: Grand titre — partie en italique
+        type: string
+      - name: heroCapitales
+        label: Grand titre — partie en majuscules
+        type: string
+      - name: heroTexte
+        label: Texte sous le grand titre
+        type: text
+      - name: uneTexte
+        label: Texte de la section « À la une »
+        type: text
+      - name: aPropos
+        label: Qui sommes-nous — texte principal
+        type: text
+      - name: aProposItalique
+        label: Qui sommes-nous — suite en italique
+        type: text
+      - name: motEntoure
+        label: Mot entouré en pointillés
+        description: Doit apparaître tel quel dans la suite en italique.
+        type: string
+      - name: valeurs
+        label: Nos valeurs
+        type: object
+        list: true
+        fields:
+          - name: titre
+            label: Titre (en gras)
+            type: string
+          - name: texte
+            label: Texte
+            type: text
+
+  - name: rubriques
+    label: Textes des rubriques
+    type: file
+    path: contenu/rubriques.yml
+    fields:
+      - name: droit
+        label: Droit — introduction
+        type: text
+      - name: actualite
+        label: Droit › Actualité — introduction
+        type: text
+      - name: portrait
+        label: Droit › Portrait — introduction
+        type: text
+      - name: art
+        label: Art — introduction
+        type: text
+      - name: mode
+        label: Art › Mode — introduction
+        type: text
+      - name: cinema_theatre
+        label: Art › Cinéma – Théâtre — introduction
+        type: text
+      - name: expositions
+        label: Art › Expositions — introduction
+        type: text
