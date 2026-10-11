@@ -72,6 +72,7 @@ Une photo placée **seule sur sa ligne** s'affiche en **polaroïd** ; son *texte
 - **Page d'accueil** : édito, grand titre, texte « À la une », « Qui sommes-nous », valeurs
   (on peut ajouter ou retirer des valeurs).
 - **Texte du globe animé** (dans Page d'accueil) : la phrase qui tourne autour du globe en bas de l'accueil.
+- **Réseaux sociaux** : collez l'adresse de vos comptes Instagram, X (Twitter), LinkedIn et WhatsApp. Les icônes apparaissent en bas de chaque page ; une case vide masque l'icône.
 - **Textes des rubriques** : les phrases d'introduction de chaque rubrique.
 
 ---

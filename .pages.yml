@@ -152,3 +152,25 @@ content:
       - name: musique
         label: Art › Musique — introduction
         type: text
+
+  - name: reseaux
+    label: Réseaux sociaux
+    type: file
+    path: contenu/reseaux.yml
+    fields:
+      - name: instagram
+        label: Instagram
+        description: Adresse complète du compte, par exemple https://www.instagram.com/rvptvre/ — laisser vide pour masquer l'icône.
+        type: string
+      - name: x
+        label: X (Twitter)
+        description: Par exemple https://x.com/rvptvre — laisser vide pour masquer l'icône.
+        type: string
+      - name: linkedin
+        label: LinkedIn
+        description: Par exemple https://www.linkedin.com/company/rvptvre/ — laisser vide pour masquer l'icône.
+        type: string
+      - name: whatsapp
+        label: WhatsApp
+        description: Lien de discussion ou de chaîne, par exemple https://wa.me/33612345678 (numéro au format international, sans + ni espaces) ou https://whatsapp.com/channel/… — laisser vide pour masquer l'icône.
+        type: string

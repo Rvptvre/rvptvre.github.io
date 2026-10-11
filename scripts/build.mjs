@@ -164,6 +164,15 @@ const site = {};
 for (const k of ['editoTitre', 'edito', 'heroItalique', 'heroCapitales', 'heroTexte', 'uneTexte', 'aPropos', 'aProposItalique', 'motEntoure', 'globeTexte']) {
   site[k] = str(accueil[k]);
 }
+// Réseaux sociaux : seuls les liens valides (https://…) sont affichés
+const reseaux = readYaml('contenu/reseaux.yml');
+site.reseaux = {};
+for (const k of ['instagram', 'x', 'linkedin', 'whatsapp']) {
+  const url = str(reseaux[k]);
+  if (!url) continue;
+  if (/^https?:\/\//i.test(url)) site.reseaux[k] = url;
+  else warn('contenu/reseaux.yml', `lien ${k} ignoré : il doit commencer par https://`);
+}
 site.valeurs = (Array.isArray(accueil.valeurs) ? accueil.valeurs : []).map(v => ({ titre: str(v && v.titre), texte: str(v && v.texte) }));
 
 const sections = STRUCTURE.map(s => ({
