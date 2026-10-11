@@ -107,6 +107,10 @@ content:
         label: Mot entouré en pointillés
         description: Doit apparaître tel quel dans la suite en italique.
         type: string
+      - name: globeTexte
+        label: Texte du globe animé (bas de page)
+        description: Phrase qui tourne autour du globe. Elle se répète, terminez-la par un séparateur, par exemple « · ».
+        type: string
       - name: valeurs
         label: Nos valeurs
         type: object
