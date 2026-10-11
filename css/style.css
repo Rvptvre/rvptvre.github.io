@@ -1059,7 +1059,8 @@ a.polaroid:hover .polaroid__img img { transform: scale(1.04); }
    Pied de page — réseaux sociaux
    From Uiverse.io by vinodjangid07 (.card renommé .social-card)
    --------------------------------------------------------------------- */
-.footer__social { grid-column: 1 / -1; display: flex; justify-content: center; margin-top: 10px; }
+.footer__brand { display: flex; flex-direction: column; align-items: flex-start; gap: 26px; }
+.footer__social { display: flex; justify-content: flex-start; }
 
 .social-card {
   width: fit-content;
