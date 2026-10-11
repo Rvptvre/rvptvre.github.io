@@ -16,6 +16,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { load } from 'js-yaml';
 import { Marked } from 'marked';
+import { build as esbuild } from 'esbuild';
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const OUT = path.join(ROOT, '_site');
@@ -160,7 +161,7 @@ for (const f of files.sort()) {
 const accueil = readYaml('contenu/accueil.yml');
 const intros = readYaml('contenu/rubriques.yml');
 const site = {};
-for (const k of ['editoTitre', 'edito', 'heroItalique', 'heroCapitales', 'heroTexte', 'uneTexte', 'aPropos', 'aProposItalique', 'motEntoure']) {
+for (const k of ['editoTitre', 'edito', 'heroItalique', 'heroCapitales', 'heroTexte', 'uneTexte', 'aPropos', 'aProposItalique', 'motEntoure', 'globeTexte']) {
   site[k] = str(accueil[k]);
 }
 site.valeurs = (Array.isArray(accueil.valeurs) ? accueil.valeurs : []).map(v => ({ titre: str(v && v.titre), texte: str(v && v.texte) }));
@@ -180,6 +181,18 @@ for (const item of ['css', 'js', 'images', '.nojekyll']) {
   const src = path.join(ROOT, item);
   if (fs.existsSync(src)) fs.cpSync(src, path.join(OUT, item), { recursive: true });
 }
+
+// Globe animé : assemble js/orbital.js avec Three.js en un seul fichier compact
+await esbuild({
+  entryPoints: [path.join(ROOT, 'js', 'orbital.js')],
+  outfile: path.join(OUT, 'js', 'orbital.js'),
+  bundle: true,
+  minify: true,
+  format: 'esm',
+  target: 'es2019',
+  legalComments: 'none',
+  logLevel: 'warning'
+});
 
 // Numéro de version : oblige les navigateurs à recharger les fichiers après chaque publication
 const version = Date.now().toString(36);

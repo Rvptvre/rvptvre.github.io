@@ -225,6 +225,16 @@
       }).join('') + '</div>' +
       '</section>';
 
+    // Globe de texte animé (js/orbital.js)
+    var globeText = s.globeTexte || 'RVPTVRE · DROIT & ART · ';
+    html += '<section class="orbital" aria-label="' + esc(globeText.trim()) + '">' +
+      '<div class="orbital__globe" data-orbital-type data-text="' + esc(globeText) + '"' +
+        ' data-colors="#141414,#3b5a99,#141414,#8aa5d9" data-font-family="Instrument Serif" data-back-opacity="0.22">' +
+        '<p class="orbital__fallback">' + esc(globeText) + '</p>' +
+      '</div>' +
+      '<p class="orbital__hint" aria-hidden="true">Faites tourner le globe</p>' +
+      '</section>';
+
     return html;
   }
 
@@ -334,6 +344,7 @@
     document.title = title;
     renderNav(active);
     afterRender();
+    document.dispatchEvent(new CustomEvent('rvpture:render'));
 
     if (location.hash !== lastHash) {
       window.scrollTo(0, 0);

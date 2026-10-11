@@ -71,6 +71,7 @@ Une photo placée **seule sur sa ligne** s'affiche en **polaroïd** ; son *texte
 ## 4. Modifier les textes du site
 - **Page d'accueil** : édito, grand titre, texte « À la une », « Qui sommes-nous », valeurs
   (on peut ajouter ou retirer des valeurs).
+- **Texte du globe animé** (dans Page d'accueil) : la phrase qui tourne autour du globe en bas de l'accueil.
 - **Textes des rubriques** : les phrases d'introduction de chaque rubrique.
 
 ---
