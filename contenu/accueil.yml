@@ -10,11 +10,11 @@ heroTexte: "Analyses, portraits, critiques et coups de cœur : un regard neuf su
 uneTexte: Les derniers articles publiés, toutes rubriques confondues.
 aPropos: "Rvptvre est un média né d’une conviction simple : le droit et l’art
   coexistent dans bien plus de domaines qu’on ne le pense."
-aProposItalique: Nous écrivons pour celles et ceux qui souhaitent découvrir de
-  nouvelles perspectives, tant dans le domaine du droit, parfois perçu comme
-  inaccessible, que dans celui de l’art, en mettant en lumière des thématiques
-  qui nous touchent particulièrement.
-motEntoure: lumière
+aProposItalique: >
+  Nous explorons de nouvelles perspectives, en rendant le droit accessible et en
+  valorisant la diversité des expressions artistiques et des sujets de société
+  qui nous animent.
+motEntoure: expressions
 valeurs:
   - titre: Curiosité.
     texte: Des tribunaux aux ateliers, nous allons chercher les histoires là où on
