@@ -428,12 +428,11 @@
     }).join('') + '<a class="tree__home link-u" href="#/">Accueil</a>';
 
     $('#footer').innerHTML = '<div class="footer__inner">' +
-      '<a href="#/" class="footer__logo">RVPTURE</a>' +
+      '<div class="footer__brand"><a href="#/" class="footer__logo">RVPTURE</a>' + socialLinks() + '</div>' +
       '<div class="footer__cols">' + content.sections.map(function (sec) {
         return '<div><p class="label"><a href="#/' + esc(sec.id) + '">' + esc(sec.titre) + '</a></p>' +
           (sec.sous || []).map(function (r) { return '<a href="#/' + esc(sec.id) + '/' + esc(r.id) + '">' + esc(r.titre) + '</a>'; }).join('') + '</div>';
       }).join('') + '</div>' +
-      socialLinks() +
       '<p class="footer__small">© ' + new Date().getFullYear() + ' Rvpture — Droit &amp; Art</p></div>';
   }
 
