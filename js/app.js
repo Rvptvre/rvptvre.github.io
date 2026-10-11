@@ -99,12 +99,22 @@
    * Éléments décoratifs (SVG)
    * ------------------------------------------------------------------ */
   var SVG = {
-    clip: '<svg class="deco-clip" viewBox="0 0 120 160" aria-hidden="true"><defs><linearGradient id="clipg" x1="0" x2="1"><stop offset="0" stop-color="#151515"/><stop offset=".42" stop-color="#6f6f6f"/><stop offset=".55" stop-color="#2f2f2f"/><stop offset="1" stop-color="#0e0e0e"/></linearGradient></defs>' +
-      '<path d="M42 100 L34 24 Q34 6 60 6 Q86 6 86 24 L78 100" fill="none" stroke="#a7a7a7" stroke-width="5" stroke-linejoin="round"/>' +
-      '<path d="M50 100 L46 36 Q46 22 60 22 Q74 22 74 36 L70 100" fill="none" stroke="#5c5c5c" stroke-width="3.5"/>' +
-      '<path d="M12 104 H108 L101 156 H19 Z" fill="url(#clipg)"/><rect x="12" y="98" width="96" height="12" rx="3" fill="#262626"/></svg>',
-    star: '<svg class="deco-star" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 3 L62 36 L97 37 L69 58 L80 93 L50 72 L20 93 L31 58 L3 37 L38 36 Z" fill="#3b5a99"/>' +
-      '<path d="M50 14 L59 40 L86 41 L64 57 L72 83 L50 67 L28 83 L36 57 L14 41 L41 40 Z" fill="none" stroke="#c5d4f2" stroke-width="1.6" stroke-dasharray="3 3"/></svg>',
+    clip: '<svg class="deco-clip" viewBox="0 0 120 150" aria-hidden="true"><defs>' +
+      '<linearGradient id="clipMetal" x1="0" x2="1"><stop offset="0" stop-color="#8d9298"/><stop offset=".35" stop-color="#f4f6f8"/><stop offset=".55" stop-color="#a9aeb4"/><stop offset="1" stop-color="#6c7178"/></linearGradient>' +
+      '<linearGradient id="clipBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3a3a"/><stop offset=".18" stop-color="#121212"/><stop offset=".8" stop-color="#050505"/><stop offset="1" stop-color="#1c1c1c"/></linearGradient>' +
+      '<linearGradient id="clipShine" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".3" stop-color="#fff" stop-opacity=".28"/><stop offset=".42" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>' +
+      '<path d="M40 96 L33 20 Q33 5 60 5 Q87 5 87 20 L80 96" fill="none" stroke="url(#clipMetal)" stroke-width="5.5" stroke-linejoin="round" stroke-linecap="round"/>' +
+      '<path d="M47 96 L44 31 Q44 19 60 19 Q76 19 76 31 L73 96" fill="none" stroke="url(#clipMetal)" stroke-width="4" stroke-linecap="round" opacity=".85"/>' +
+      '<path d="M10 100 Q60 92 110 100 L104 146 Q60 150 16 146 Z" fill="url(#clipBody)"/>' +
+      '<path d="M10 100 Q60 92 110 100 L104 146 Q60 150 16 146 Z" fill="url(#clipShine)"/>' +
+      '<path d="M12 101 Q60 93.5 108 101" fill="none" stroke="#5b5b5b" stroke-width="1.4"/></svg>',
+    paperclip: '<svg class="deco-paperclip" viewBox="0 0 34 120" aria-hidden="true"><defs><linearGradient id="pcMetal" x1="0" x2="1"><stop offset="0" stop-color="#7d838b"/><stop offset=".45" stop-color="#eef1f4"/><stop offset="1" stop-color="#8a9097"/></linearGradient></defs>' +
+      '<path d="M8 96 V17 A10 10 0 0 1 28 17 V104 A8 8 0 0 1 12 104 V28 A4.5 4.5 0 0 1 21 28 V86" fill="none" stroke="url(#pcMetal)" stroke-width="2.8" stroke-linecap="round"/></svg>',
+    postmark: '<svg class="deco-postmark" viewBox="0 0 160 80" aria-hidden="true"><g fill="none" stroke="#2c3550" stroke-opacity=".55" stroke-width="1.6">' +
+      '<circle cx="40" cy="40" r="30"/><circle cx="40" cy="40" r="22" stroke-dasharray="2 3"/>' +
+      '<path d="M78 22 q10 -6 20 0 t20 0 t20 0 t20 0 M78 34 q10 -6 20 0 t20 0 t20 0 t20 0 M78 46 q10 -6 20 0 t20 0 t20 0 t20 0 M78 58 q10 -6 20 0 t20 0 t20 0 t20 0"/></g>' +
+      '<text x="40" y="37" text-anchor="middle" font-family="Courier New, monospace" font-size="9" fill="#2c3550" fill-opacity=".65">RVPTVRE</text>' +
+      '<text x="40" y="49" text-anchor="middle" font-family="Courier New, monospace" font-size="8" fill="#2c3550" fill-opacity=".65">' + new Date().getFullYear() + '</text></svg>',
     loop: '<svg class="deco-loop" viewBox="0 0 320 230" aria-hidden="true"><path d="M10 40 C 60 10, 120 90, 95 160 C 75 215, 10 200, 30 150 C 55 95, 190 120, 210 70 C 225 30, 165 20, 175 60 C 190 115, 280 110, 310 200" fill="none" stroke="currentColor" stroke-width="2.6" stroke-dasharray="9 8" stroke-linecap="round"/></svg>',
     heart: '<svg class="deco-heart" viewBox="0 0 60 54" aria-hidden="true"><path d="M30 52 C 10 36, 2 26, 2 15 C 2 7, 8 2, 16 2 C 22 2, 27 6, 30 11 C 33 6, 38 2, 44 2 C 52 2, 58 7, 58 15 C 58 26, 50 36, 30 52 Z" fill="#f2b8c6" stroke="#141414" stroke-width="2"/></svg>'
   };
@@ -168,15 +178,42 @@
 
     var html = '' +
       '<section class="hero">' +
-        '<div class="hero__collage">' +
-          '<div class="torn torn--green" aria-hidden="true"></div>' +
-          SVG.clip +
-          '<div class="paper">' +
-            text('site.editoTitre', 'h2', 'paper__title') +
-            text('site.edito', 'p', 'paper__text') +
+        '<div class="folder">' +
+          '<div class="folder__collage" aria-hidden="true">' +
+            '<div class="note"><span class="note__text">Droit &amp; Art — à suivre !</span></div>' +
+            '<div class="pcard">' + SVG.clip +
+              '<p class="pcard__head"><span class="pcard__title">Carte de presse</span><span class="pcard__num">N° RVP-' + new Date().getFullYear() + '-0001</span></p>' +
+              '<div class="pcard__body">' +
+                '<div class="pcard__photo">' + (latest[0] ? img(latest[0].image, '') : '') + '</div>' +
+                '<dl class="pcard__fields">' +
+                  '<dt>Média</dt><dd>Rvptvre</dd>' +
+                  '<dt>Rubriques</dt><dd>Droit &amp; Art</dd>' +
+                  '<dt>Délivrée le</dt><dd>' + esc(new Date().toLocaleDateString('fr-FR')) + '</dd>' +
+                '</dl>' +
+              '</div>' +
+              '<p class="pcard__foot"><span class="barcode"></span><span class="pcard__sign">Rvptvre</span></p>' +
+            '</div>' +
+            '<div class="stamp-postal">' +
+              '<div class="stamp-postal__inner">' + (latest[1] ? img(latest[1].image, '') : '') +
+                '<span class="stamp-postal__value">2,50 €</span></div>' +
+            '</div>' +
+            SVG.postmark +
+            '<div class="ticket">' +
+              '<div class="ticket__stub">Rvptvre</div>' +
+              '<div class="ticket__main">' +
+                '<span class="ticket__small">Billet N° 000214</span>' +
+                '<span class="ticket__big">Entrée générale</span>' +
+                '<span class="ticket__small">Saison ' + new Date().getFullYear() + ' — Droit &amp; Art</span>' +
+              '</div>' +
+            '</div>' +
+            '<span class="tape tape--ticket"></span>' +
           '</div>' +
-          SVG.star +
-          (latest[0] ? '<a class="snap snap--hero" href="#/article/' + encodeURIComponent(latest[0].id) + '" aria-label="' + esc(latest[0].titre) + '">' + img(latest[0].image, '') + '</a>' : '') +
+          '<div class="folder__sheet">' + SVG.paperclip +
+            text('site.editoTitre', 'h2', 'sheet__title') +
+            text('site.edito', 'p', 'sheet__text') +
+            '<p class="sheet__sign" aria-hidden="true">La rédaction</p>' +
+          '</div>' +
+          '<span class="folder__tab" aria-hidden="true">Rvptvre — Édito</span>' +
         '</div>' +
         '<div class="hero__text">' +
           '<h1 class="hero__title">' + text('site.heroItalique', 'em') + text('site.heroCapitales', 'span', 'caps') + '</h1>' +
