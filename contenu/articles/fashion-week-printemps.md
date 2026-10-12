@@ -1,14 +1,13 @@
 ---
-titre: 'Fashion Week : le retour du vêtement qui raconte'
+titre: "Fashion Week : le retour du vêtement qui raconte"
 rubrique: art/mode
-date: '2026-10-05'
+date: 2026-10-05
 auteur: La rédaction
-chapo: Sur les podiums de la saison, les créateurs renouent avec le récit et l'artisanat.
-image: /images/exemple-fashion-week-printemps.jpg
+chapo: Sur les podiums de la saison, les créateurs renouent avec le récit et
+  l'artisanat.
 legende: Backstage, quelques minutes avant le défilé.
 publie: true
 ---
-
 Fini le minimalisme froid : cette saison, les silhouettes se chargent d'histoires. Broderies, pièces recyclées, matières anciennes détournées.
 
 ## L'artisanat au premier plan
