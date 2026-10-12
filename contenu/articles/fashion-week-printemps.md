@@ -5,7 +5,7 @@ date: 2026-10-05
 auteur: La rédaction
 chapo: Sur les podiums de la saison, les créateurs renouent avec le récit et
   l'artisanat.
-image: /images/img0023.jpg
+image: /images/biden-cool-as-fuck-1.webp
 legende: Backstage, quelques minutes avant le défilé.
 publie: true
 ---
