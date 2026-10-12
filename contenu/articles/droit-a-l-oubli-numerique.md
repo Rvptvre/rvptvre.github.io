@@ -1,14 +1,12 @@
 ---
 titre: Le droit à l'oubli numérique, dix ans après
 rubrique: droit/actualite
-date: '2026-09-08'
+date: 2026-09-08
 auteur: La rédaction
-chapo: 'Déréférencement, effacement, archives de presse : où en est-on vraiment ?'
-image: /images/exemple-droit-a-l-oubli-numerique.jpg
-legende: ''
+chapo: "Déréférencement, effacement, archives de presse : où en est-on vraiment ?"
+image: /images/le-loup-de-wall-street.jpg
 publie: true
 ---
-
 Le droit à l'effacement permet à toute personne de demander la suppression de données la concernant. Mais il se heurte à d'autres droits fondamentaux, à commencer par la liberté d'information.
 
 Les juridictions ont progressivement dessiné un équilibre, au cas par cas, entre la vie privée et l'intérêt du public.
