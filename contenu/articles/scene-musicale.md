@@ -5,7 +5,7 @@ date: 2026-10-09
 auteur: La rédaction
 chapo: Entre salles intimistes et premiers albums, notre sélection de voix
   nouvelles qui bousculent les codes.
-image: /images/img0007.jpg
+image: /images/index.jpg
 publie: true
 ---
 Loin des grandes tournées, une nouvelle génération d'artistes fait vibrer les petites salles et les plateformes d'écoute.
