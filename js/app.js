@@ -124,12 +124,70 @@
    * ------------------------------------------------------------------ */
   function polaroid(a, opts) {
     opts = opts || {};
+    if (a.section === 'art') return artFrame(a, opts);
     return '<a class="polaroid' + (opts.cls ? ' ' + opts.cls : '') + '" href="#/article/' + encodeURIComponent(a.id) + '" style="--r:' + tilt(a.id) + 'deg;--tr:' + tilt(a.id + 't', 6) + 'deg">' +
       '<span class="tape" aria-hidden="true"></span>' +
       '<div class="polaroid__img">' + img(a.image, '') + '</div>' +
       '<p class="polaroid__caption">' + esc(a.titre) + '</p>' +
       (opts.noMeta ? '<div class="polaroid__pad"></div>' : '<p class="polaroid__meta">' + esc(rubLabel(a)) + (a.date ? ' — ' + formatDate(a.date) : '') + '</p>') +
       '</a>';
+  }
+
+  /* ---- Rubrique Art : cadres originaux (motifs ou appareils photo) ---- */
+  var ART_SVG = {
+    butterfly: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 50"><g fill="#d8a640" stroke="#8a6420" stroke-width="1.2"><path d="M30 25 C20 4 4 2 3 12 C2 22 16 26 30 25z"/><path d="M30 25 C40 4 56 2 57 12 C58 22 44 26 30 25z"/><path d="M30 26 C22 30 12 44 20 46 C26 47 29 36 30 26z"/><path d="M30 26 C38 30 48 44 40 46 C34 47 31 36 30 26z"/></g><path d="M30 14 V40" stroke="#5a4012" stroke-width="2.4" stroke-linecap="round"/><path d="M30 14 q-4 -8 -8 -10 M30 14 q4 -8 8 -10" stroke="#5a4012" stroke-width="1" fill="none"/></svg>',
+    heart: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 36"><path d="M20 34 C6 24 1 17 1 10 C1 5 5 1 10 1 C14 1 18 4 20 7 C22 4 26 1 30 1 C35 1 39 5 39 10 C39 17 34 24 20 34z" fill="#b3263a" stroke="#7a1424" stroke-width="1.5"/><path d="M9 8 q3 -3 6 -1" stroke="#ff9aa8" stroke-width="2" fill="none" stroke-linecap="round"/></svg>',
+    star: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><defs><linearGradient id="camStar" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#b9bec6"/><stop offset="1" stop-color="#6f757d"/></linearGradient></defs><path d="M20 1 L25 15 L39 15 L28 24 L32 38 L20 30 L8 38 L12 24 L1 15 L15 15z" fill="url(#camStar)" stroke="#5d636b" stroke-width="1"/></svg>',
+    hearts: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 92 22"><g transform="translate(6 2)"><path d="M10 19 C3 14 0 10 0 6 C0 3 2 1 5 1 C7 1 9 2 10 4 C11 2 13 1 15 1 C18 1 20 3 20 6 C20 10 17 14 10 19z" fill="#8e6bd6" stroke="#3a2a5a" stroke-width="1.6"/></g><g transform="translate(28 2)"><path d="M10 19 C3 14 0 10 0 6 C0 3 2 1 5 1 C7 1 9 2 10 4 C11 2 13 1 15 1 C18 1 20 3 20 6 C20 10 17 14 10 19z" fill="#f2c94c" stroke="#3a2a5a" stroke-width="1.6"/></g><g transform="translate(50 2)"><path d="M10 19 C3 14 0 10 0 6 C0 3 2 1 5 1 C7 1 9 2 10 4 C11 2 13 1 15 1 C18 1 20 3 20 6 C20 10 17 14 10 19z" fill="#ef5b6a" stroke="#3a2a5a" stroke-width="1.6"/></g><g transform="translate(72 2)"><path d="M10 19 C3 14 0 10 0 6 C0 3 2 1 5 1 C7 1 9 2 10 4 C11 2 13 1 15 1 C18 1 20 3 20 6 C20 10 17 14 10 19z" fill="#6b8fe0" stroke="#3a2a5a" stroke-width="1.6"/></g></svg>',
+    rainbow: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 44"><path d="M6 36 A29 29 0 0 1 64 36" stroke="#ef5b6a" stroke-width="4.2" fill="none"/><path d="M10 36 A25 25 0 0 1 60 36" stroke="#f5a142" stroke-width="4.2" fill="none"/><path d="M14 36 A21 21 0 0 1 56 36" stroke="#f2d24c" stroke-width="4.2" fill="none"/><path d="M18 36 A17 17 0 0 1 52 36" stroke="#6cc070" stroke-width="4.2" fill="none"/><path d="M22 36 A13 13 0 0 1 48 36" stroke="#5b8fe0" stroke-width="4.2" fill="none"/><g fill="#fff" stroke="#c9d3e6" stroke-width="1"><ellipse cx="12" cy="37" rx="11" ry="6"/><ellipse cx="58" cy="37" rx="11" ry="6"/></g></svg>',
+    smiley: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><ellipse cx="20" cy="7" rx="6" ry="8" fill="#ef5b4a" transform="rotate(0 20 20)"/><ellipse cx="20" cy="7" rx="6" ry="8" fill="#ef5b4a" transform="rotate(60 20 20)"/><ellipse cx="20" cy="7" rx="6" ry="8" fill="#ef5b4a" transform="rotate(120 20 20)"/><ellipse cx="20" cy="7" rx="6" ry="8" fill="#ef5b4a" transform="rotate(180 20 20)"/><ellipse cx="20" cy="7" rx="6" ry="8" fill="#ef5b4a" transform="rotate(240 20 20)"/><ellipse cx="20" cy="7" rx="6" ry="8" fill="#ef5b4a" transform="rotate(300 20 20)"/><circle cx="20" cy="20" r="9" fill="#f7d34c"/><circle cx="17" cy="18" r="1.3" fill="#3a2a10"/><circle cx="23" cy="18" r="1.3" fill="#3a2a10"/><path d="M16 22 q4 4 8 0" stroke="#3a2a10" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>'
+  };
+  var ART_FRAMES = [
+    { kind: 'frame', cls: 'frame--vichy' },
+    { kind: 'frame', cls: 'frame--leopard' },
+    { kind: 'cam', cls: 'cam--argent' },
+    { kind: 'frame', cls: 'frame--cerises' },
+    { kind: 'frame', cls: 'frame--vichy frame--vichy-orange' },
+    { kind: 'cam', cls: 'cam--rose' },
+    { kind: 'frame', cls: 'frame--bisous' },
+    { kind: 'frame', cls: 'frame--vintage' },
+    { kind: 'cam', cls: 'cam--noir' },
+    { kind: 'frame', cls: 'frame--noeuds' },
+    { kind: 'frame', cls: 'frame--vichy frame--vichy-lilas' },
+    { kind: 'cam', cls: 'cam--blanc' },
+    { kind: 'frame', cls: 'frame--fleurs' },
+    { kind: 'frame', cls: 'frame--vichy frame--vichy-rose' }
+  ];
+
+  function artFrame(a, opts) {
+    var f = ART_FRAMES[hashNum(a.id) % ART_FRAMES.length];
+    var href = '#/article/' + encodeURIComponent(a.id);
+    var style = ' style="--r:' + tilt(a.id) + 'deg"';
+    var extra = opts.cls ? ' ' + opts.cls : '';
+    var meta = opts.noMeta ? '' : '<p class="' + (f.kind === 'cam' ? 'cam__meta' : 'polaroid__meta') + '">' +
+      esc(rubLabel(a)) + (a.date ? ' — ' + formatDate(a.date) : '') + '</p>';
+    var deco = function (svg, cls) { return '<span class="' + (f.kind === 'cam' ? 'cam__sticker ' : 'frame__deco ') + cls + '" aria-hidden="true">' + svg + '</span>'; };
+
+    if (f.kind === 'cam') {
+      var stickers = '';
+      if (f.cls === 'cam--argent') stickers = deco(ART_SVG.star, 'cam__star cam__star--a') + deco(ART_SVG.star, 'cam__star cam__star--b');
+      if (f.cls === 'cam--noir') stickers = deco(ART_SVG.hearts, 'cam__hearts') + deco(ART_SVG.rainbow, 'cam__rainbow') + deco(ART_SVG.smiley, 'cam__smiley');
+      return '<a class="cam ' + f.cls + extra + '" href="' + href + '"' + style + '>' +
+        '<div class="cam__body">' +
+          '<div class="cam__screen"><div class="polaroid__img">' + img(a.image, '') + '</div></div>' +
+          '<div class="cam__ctrl" aria-hidden="true"><span class="cam__zoom"></span><span class="cam__dial"></span><span class="cam__pad"></span>' +
+            '<span class="cam__btns"><span>MENU</span><span>DISP</span></span></div>' +
+          '<span class="cam__brand" aria-hidden="true">RVPTVRE</span>' + stickers +
+        '</div>' +
+        '<p class="cam__title">' + esc(a.titre) + '</p>' + meta + '</a>';
+    }
+
+    var decos = '';
+    if (f.cls === 'frame--vintage') decos = SVG.paperclip + deco(ART_SVG.butterfly, 'frame__butterfly frame__butterfly--a') + deco(ART_SVG.butterfly, 'frame__butterfly frame__butterfly--b');
+    if (f.cls.indexOf('frame--vichy-rose') !== -1) decos = deco(ART_SVG.heart, 'frame__heart');
+    return '<a class="polaroid frame ' + f.cls + extra + '" href="' + href + '"' + style + '>' + decos +
+      '<div class="polaroid__img">' + img(a.image, '') + '</div>' +
+      '<div class="frame__label"><p class="polaroid__caption">' + esc(a.titre) + '</p>' + meta + '</div></a>';
   }
 
   function polaroidGrid(list) {
