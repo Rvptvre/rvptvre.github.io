@@ -4,7 +4,7 @@ rubrique: art/cinema-theatre
 date: 2026-10-08
 auteur: La rédaction
 chapo: Deux personnages, une nuit, un secret. Notre critique du film qui fait parler.
-image: /images/biden-cool-as-fuck.webp
+image: /images/img1499.jpg
 publie: true
 ---
 Il y a des films qui s'imposent dès le premier plan. Celui-ci en fait partie : une cuisine, deux visages, et une tension qui ne retombe jamais.
