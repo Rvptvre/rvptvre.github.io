@@ -1,4 +1,4 @@
-editoTitre: Édito
+editoTitre: "qui somme nous ? "
 edito: "Rvptvre est un média indépendant qui fait se rencontrer deux mondes que
   tout semble opposer : la rigueur du droit et la liberté de l'art. Ici, on
   décrypte l'actualité juridique, on raconte celles et ceux qui la font, et on
@@ -15,6 +15,7 @@ aProposItalique: >
   valorisant la diversité des expressions artistiques et des sujets de société
   qui nous animent.
 motEntoure: expressions
+globeTexte: "RVPTVRE · DROIT & ART · "
 valeurs:
   - titre: Curiosité.
     texte: Des tribunaux aux ateliers, nous allons chercher les histoires là où on
@@ -31,4 +32,3 @@ valeurs:
       digne d’intérêt qu’un autre, penser qu’une thématique mérite davantage
       d’attention, c’est oublier la richesse de ce que chacune peut nous
       apporter.
-globeTexte: "RVPTVRE · DROIT & ART · "
